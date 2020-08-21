@@ -1,6 +1,32 @@
 package ru.internship.voting.model;
 
-import ru.internship.voting.HasId;
+public abstract class AbstractBaseEntity {
 
-public abstract class AbstractBaseEntity implements HasId {
+    public static final int START_SEQ = 1000;
+
+    protected Integer id;
+
+    protected AbstractBaseEntity() {
+    }
+
+    protected AbstractBaseEntity(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    boolean isNew() {
+        return getId() == null;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ":" + id;
+    }
 }
