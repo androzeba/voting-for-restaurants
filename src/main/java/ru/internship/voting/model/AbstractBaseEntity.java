@@ -2,7 +2,7 @@ package ru.internship.voting.model;
 
 public abstract class AbstractBaseEntity {
 
-//    public static final int START_SEQ = 1000000;
+    public static final int START_SEQ = 1000000;
 
     protected Integer id;
 
