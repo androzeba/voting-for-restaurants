@@ -1,13 +1,24 @@
 package ru.internship.voting.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "date", "name"}, name = "dishes_idx")})
 public class Dish extends AbstractNamedEntity {
 
+    @Column(name = "date", nullable = false)
     private LocalDate date;
 
+    @Column(name = "price", nullable = false)
     private Integer price;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
     public Dish() {

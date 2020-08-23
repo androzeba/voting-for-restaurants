@@ -2,19 +2,31 @@ package ru.internship.voting.model;
 
 import org.springframework.util.CollectionUtils;
 
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
+@Entity
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
 public class User extends AbstractNamedEntity {
 
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @Column(name = "password", nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "user_roles_idx")})
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OrderBy("date DESC")
     private List<Vote> votes;
 
     public User() {

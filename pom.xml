@@ -16,6 +16,8 @@
         <java.version>14</java.version>
         <spring.version>5.2.8.RELEASE</spring.version>
         <spring-data-jpa.version>2.3.2.RELEASE</spring-data-jpa.version>
+        <hibernate.version>5.4.20.Final</hibernate.version>
+        <hibernate-annotations.version>3.5.6-Final</hibernate-annotations.version>
     </properties>
 
     <build>
@@ -59,6 +61,19 @@
             <artifactId>hsqldb</artifactId>
             <version>2.5.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+            <version>${hibernate-annotations.version}</version>
+        </dependency>
+
 
     </dependencies>
 
