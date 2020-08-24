@@ -1,10 +1,12 @@
 package ru.internship.voting.repository;
 
+import org.springframework.stereotype.Repository;
 import ru.internship.voting.model.Vote;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Repository
 public class VoteRepository {
 
     private final DataJpaVoteRepository jpaVoteRepository;

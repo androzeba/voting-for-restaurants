@@ -1,10 +1,12 @@
 package ru.internship.voting.repository;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Repository;
 import ru.internship.voting.model.Restaurant;
 
 import java.util.List;
 
+@Repository
 public class RestaurantRepository {
 
     private final DataJpaRestaurantRepository jpaRestaurantRepository;

@@ -5,6 +5,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"}, name = "votes_idx")})
@@ -12,6 +13,9 @@ public class Vote extends AbstractBaseEntity {
 
     @Column(name = "date", nullable = false)
     private LocalDate date;
+
+    @Column(name = "time", nullable = false)
+    private LocalTime time;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -26,13 +30,14 @@ public class Vote extends AbstractBaseEntity {
     public Vote() {
     }
 
-    public Vote(LocalDate date) {
-        this(null, date);
+    public Vote(LocalDate date, LocalTime time) {
+        this(null, date, time);
     }
 
-    public Vote(Integer id, LocalDate date) {
+    public Vote(Integer id, LocalDate date, LocalTime time) {
         super(id);
         this.date = date;
+        this.time = time;
     }
 
     public LocalDate getDate() {
@@ -41,6 +46,14 @@ public class Vote extends AbstractBaseEntity {
 
     public void setDate(LocalDate dateTime) {
         this.date = dateTime;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
     }
 
     public User getUser() {

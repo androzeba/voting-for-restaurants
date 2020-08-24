@@ -21,6 +21,7 @@
     </properties>
 
     <build>
+        <finalName>voting</finalName>
         <defaultGoal>package</defaultGoal>
 
         <plugins>
@@ -72,6 +73,16 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-annotations</artifactId>
             <version>${hibernate-annotations.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 
