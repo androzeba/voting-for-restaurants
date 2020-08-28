@@ -1,5 +1,6 @@
 package ru.internship.voting.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -14,17 +15,16 @@ public class Vote extends AbstractBaseEntity {
     @Column(name = "date", nullable = false)
     private LocalDate date;
 
-    @Column(name = "time", nullable = false)
-    private LocalTime time;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonBackReference
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonBackReference
     private Restaurant restaurant;
 
     public Vote() {
@@ -37,7 +37,6 @@ public class Vote extends AbstractBaseEntity {
     public Vote(Integer id, LocalDate date, LocalTime time) {
         super(id);
         this.date = date;
-        this.time = time;
     }
 
     public LocalDate getDate() {
@@ -46,14 +45,6 @@ public class Vote extends AbstractBaseEntity {
 
     public void setDate(LocalDate dateTime) {
         this.date = dateTime;
-    }
-
-    public LocalTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
     }
 
     public User getUser() {

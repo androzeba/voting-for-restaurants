@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.internship.voting.model.Restaurant;
 
+@Transactional(readOnly = true)
 public interface DataJpaRestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
     @Modifying

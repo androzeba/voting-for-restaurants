@@ -1,27 +1,29 @@
 package ru.internship.voting.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.lang.Nullable;
+import org.springframework.web.bind.annotation.*;
 import ru.internship.voting.model.Dish;
 import ru.internship.voting.model.Restaurant;
 import ru.internship.voting.model.Vote;
 import ru.internship.voting.repository.DishRepository;
 import ru.internship.voting.repository.RestaurantRepository;
 import ru.internship.voting.repository.VoteRepository;
+import ru.internship.voting.util.DateUtil;
 import ru.internship.voting.util.ValidationUtil;
 import ru.internship.voting.web.SecurityUtil;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProfileRestController {
 
     private final RestaurantRepository restaurantRepository;
     private final DishRepository dishRepository;
-    private VoteRepository voteRepository;
+    private final VoteRepository voteRepository;
 
     @Autowired
     public ProfileRestController(RestaurantRepository restaurantRepository, DishRepository dishRepository, VoteRepository voteRepository) {
@@ -41,10 +43,24 @@ public class ProfileRestController {
         return restaurant.getDishes();
     }
 
+    @GetMapping("/restaurants/{id}/dishes/filter")
+    public List<Dish> getFilteredDishes(@PathVariable int id,
+                                        @RequestParam @Nullable LocalDate startDate,
+                                        @RequestParam @Nullable LocalDate endDate) {
+        return dishRepository.getBetween(DateUtil.dateOrMin(startDate), DateUtil.dateOrMax(endDate), id);
+    }
+
     @GetMapping("/votes")
     public List<Vote> getAllVotes() {
         int userId = SecurityUtil.getAuthUserId();
         return voteRepository.getAll(userId);
+    }
+
+    @GetMapping("/votes/filter")
+    public List<Vote> getFilteredVotes(@RequestParam @Nullable LocalDate startDate,
+                                       @RequestParam @Nullable LocalDate endDate) {
+        int userId = SecurityUtil.getAuthUserId();
+        return voteRepository.getBetween(DateUtil.dateOrMin(startDate), DateUtil.dateOrMax(endDate), userId);
     }
 
 //    @PostMapping("/votes/{id}")
@@ -52,7 +68,6 @@ public class ProfileRestController {
 //        int userId = SecurityUtil.getAuthUserId();
 //        ValidationUtil.checkNew(vote);
 //    }
-
 
 
 }

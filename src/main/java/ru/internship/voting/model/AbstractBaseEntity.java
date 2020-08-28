@@ -3,6 +3,7 @@ package ru.internship.voting.model;
 import javax.persistence.*;
 
 @MappedSuperclass
+@Access(AccessType.FIELD)
 public abstract class AbstractBaseEntity {
 
     public static final int START_SEQ = 100000;
@@ -30,10 +31,6 @@ public abstract class AbstractBaseEntity {
     public boolean isNew() {
         return getId() == null;
     }
-
-//    public Integer id() {
-//        return id;
-//    }
 
     @Override
     public String toString() {

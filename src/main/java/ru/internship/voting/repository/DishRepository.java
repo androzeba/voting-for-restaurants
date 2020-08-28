@@ -1,5 +1,6 @@
 package ru.internship.voting.repository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.internship.voting.model.Dish;
 
@@ -11,6 +12,7 @@ public class DishRepository {
 
     private final DataJpaDishRepository jpaDishRepository;
 
+    @Autowired
     public DishRepository(DataJpaDishRepository jpaDishRepository) {
         this.jpaDishRepository = jpaDishRepository;
     }

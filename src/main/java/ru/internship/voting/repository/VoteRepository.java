@@ -1,5 +1,6 @@
 package ru.internship.voting.repository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.internship.voting.model.Vote;
 
@@ -12,6 +13,7 @@ public class VoteRepository {
     private final DataJpaVoteRepository jpaVoteRepository;
     private final DataJpaUserRepository jpaUserRepository;
 
+    @Autowired
     public VoteRepository(DataJpaVoteRepository jpaVoteRepository, DataJpaUserRepository jpaUserRepository) {
         this.jpaVoteRepository = jpaVoteRepository;
         this.jpaUserRepository = jpaUserRepository;
@@ -34,14 +36,6 @@ public class VoteRepository {
         vote.setUser(jpaUserRepository.getOne(userId));
         return jpaVoteRepository.save(vote);
     }
-
-//    public Vote getWithUser(int id, int userId) {
-//
-//    }
-//
-//    public Vote getWithRestaurant(int id, int userId) {
-//
-//    }
 
     public Vote getWithUserAndRestaurant(int id, int userId) {
         return jpaVoteRepository.getWithUserAndRestaurant(id, userId);

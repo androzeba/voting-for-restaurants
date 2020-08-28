@@ -10,6 +10,7 @@ import ru.internship.voting.model.Dish;
 import java.time.LocalDate;
 import java.util.List;
 
+@Transactional(readOnly = true)
 public interface DataJpaDishRepository extends JpaRepository<Dish, Integer> {
 
     @Query("SELECT d FROM Dish d WHERE d.restaurant.id=:restaurantId ORDER BY d.date DESC")
