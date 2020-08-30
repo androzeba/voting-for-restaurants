@@ -39,7 +39,10 @@ public class VoteRepository {
 
     public Vote getWithUserAndRestaurant(int id, int userId) {
         return jpaVoteRepository.getWithUserAndRestaurant(id, userId);
+    }
 
+    public List<Vote> getAllWithRestaurant(int userId) {
+        return jpaVoteRepository.getAllWithRestaurant(userId);
     }
 
     public List<Vote> getBetween(LocalDate startDate, LocalDate endDate, int userId) {

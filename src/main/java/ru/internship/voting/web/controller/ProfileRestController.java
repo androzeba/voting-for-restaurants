@@ -1,6 +1,7 @@
 package ru.internship.voting.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,7 @@ import ru.internship.voting.model.Vote;
 import ru.internship.voting.repository.DishRepository;
 import ru.internship.voting.repository.RestaurantRepository;
 import ru.internship.voting.repository.VoteRepository;
-import ru.internship.voting.util.DateUtil;
+import ru.internship.voting.util.DateTimeUtil;
 import ru.internship.voting.util.ValidationUtil;
 import ru.internship.voting.web.SecurityUtil;
 
@@ -45,22 +46,22 @@ public class ProfileRestController {
 
     @GetMapping("/restaurants/{id}/dishes/filter")
     public List<Dish> getFilteredDishes(@PathVariable int id,
-                                        @RequestParam @Nullable LocalDate startDate,
-                                        @RequestParam @Nullable LocalDate endDate) {
-        return dishRepository.getBetween(DateUtil.dateOrMin(startDate), DateUtil.dateOrMax(endDate), id);
+                                        @RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                        @RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return dishRepository.getBetween(DateTimeUtil.dateOrMin(startDate), DateTimeUtil.dateOrMax(endDate), id);
     }
 
     @GetMapping("/votes")
     public List<Vote> getAllVotes() {
         int userId = SecurityUtil.getAuthUserId();
-        return voteRepository.getAll(userId);
+        return voteRepository.getAllWithRestaurant(userId);
     }
 
     @GetMapping("/votes/filter")
-    public List<Vote> getFilteredVotes(@RequestParam @Nullable LocalDate startDate,
-                                       @RequestParam @Nullable LocalDate endDate) {
+    public List<Vote> getFilteredVotes(@RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                       @RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         int userId = SecurityUtil.getAuthUserId();
-        return voteRepository.getBetween(DateUtil.dateOrMin(startDate), DateUtil.dateOrMax(endDate), userId);
+        return voteRepository.getBetween(DateTimeUtil.dateOrMin(startDate), DateTimeUtil.dateOrMax(endDate), userId);
     }
 
 //    @PostMapping("/votes/{id}")

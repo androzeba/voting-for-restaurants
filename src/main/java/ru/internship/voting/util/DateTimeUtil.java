@@ -1,13 +1,14 @@
 package ru.internship.voting.util;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
-public class DateUtil {
+public class DateTimeUtil {
 
     private static final LocalDate MIN_DATE = LocalDate.of(1, 1, 1);
     private static final LocalDate MAX_DATE = LocalDate.of(3000, 1, 1);
 
-    private DateUtil() {
+    private DateTimeUtil() {
     }
 
     public static LocalDate dateOrMin(LocalDate localDate) {
@@ -17,4 +18,13 @@ public class DateUtil {
     public static LocalDate dateOrMax(LocalDate localDate) {
         return localDate != null ? localDate : MAX_DATE;
     }
+
+    public static boolean isTimeToUpdate() {
+        return LocalTime.now().isBefore(LocalTime.of(11, 0, 0));
+    }
+
+//    public static @Nullable
+//    LocalDate parseLocalDate(@Nullable String str) {
+//        return StringUtils.isEmpty(str) ? null : LocalDate.parse(str);
+//    }
 }
