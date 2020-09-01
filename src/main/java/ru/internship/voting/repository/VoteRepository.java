@@ -12,11 +12,13 @@ public class VoteRepository {
 
     private final DataJpaVoteRepository jpaVoteRepository;
     private final DataJpaUserRepository jpaUserRepository;
+    private final DataJpaRestaurantRepository jpaRestaurantRepository;
 
     @Autowired
-    public VoteRepository(DataJpaVoteRepository jpaVoteRepository, DataJpaUserRepository jpaUserRepository) {
+    public VoteRepository(DataJpaVoteRepository jpaVoteRepository, DataJpaUserRepository jpaUserRepository, DataJpaRestaurantRepository jpaRestaurantRepository) {
         this.jpaVoteRepository = jpaVoteRepository;
         this.jpaUserRepository = jpaUserRepository;
+        this.jpaRestaurantRepository = jpaRestaurantRepository;
     }
 
     public Vote get(int id, int userId) {
@@ -29,16 +31,17 @@ public class VoteRepository {
         return jpaVoteRepository.getAll(userId);
     }
 
-    public Vote save(Vote vote, int userId) {
+    public Vote save(Vote vote, int userId, int restId) {
         if (!vote.isNew() && get(vote.getId(), userId) == null) {
             return null;
         }
         vote.setUser(jpaUserRepository.getOne(userId));
+        vote.setRestaurant(jpaRestaurantRepository.getOne(restId));
         return jpaVoteRepository.save(vote);
     }
 
-    public Vote getWithUserAndRestaurant(int id, int userId) {
-        return jpaVoteRepository.getWithUserAndRestaurant(id, userId);
+    public Vote getByDateAndUserId(LocalDate date, int userId) {
+        return jpaVoteRepository.getByDateAndUserId(date, userId);
     }
 
     public List<Vote> getAllWithRestaurant(int userId) {
@@ -46,6 +49,10 @@ public class VoteRepository {
     }
 
     public List<Vote> getBetween(LocalDate startDate, LocalDate endDate, int userId) {
+        return jpaVoteRepository.getBetween(startDate, endDate, userId);
+    }
+
+    public List<Vote> getBetweenWithRestaurant(LocalDate startDate, LocalDate endDate, int userId) {
         return jpaVoteRepository.getBetween(startDate, endDate, userId);
     }
 }

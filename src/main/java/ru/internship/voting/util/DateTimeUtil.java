@@ -20,7 +20,7 @@ public class DateTimeUtil {
     }
 
     public static boolean isTimeToUpdate() {
-        return LocalTime.now().isBefore(LocalTime.of(11, 0, 0));
+        return LocalTime.now().isBefore(LocalTime.of(21, 0, 0));
     }
 
 //    public static @Nullable
