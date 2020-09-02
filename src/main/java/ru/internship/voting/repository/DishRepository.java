@@ -48,7 +48,7 @@ public class DishRepository {
         return jpaDishRepository.getBetween(startDate, endDate, restaurantId);
     }
 
-    public Dish getWithRestaurant(int id) {
-        return jpaDishRepository.getWithRestaurant(id);
-    }
+//    public Dish getWithRestaurant(int id) {
+//        return jpaDishRepository.getWithRestaurant(id);
+//    }
 }

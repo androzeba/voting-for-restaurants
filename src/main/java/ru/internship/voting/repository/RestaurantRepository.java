@@ -19,12 +19,20 @@ public class RestaurantRepository {
         this.jpaRestaurantRepository = jpaRestaurantRepository;
     }
 
+    public Restaurant get(int id) {
+        return jpaRestaurantRepository.findById(id).orElse(null);
+    }
+
+    public Restaurant getWithDishes(int id) {
+        return jpaRestaurantRepository.getWithDishes(id);
+    }
+
     public List<Restaurant> getAll() {
         return jpaRestaurantRepository.findAll(SORT_NAME);
     }
 
-    public Restaurant get(int id) {
-        return jpaRestaurantRepository.findById(id).orElse(null);
+    public List<Restaurant> getAllWithDishes() {
+        return jpaRestaurantRepository.getAllWithDishes();
     }
 
     public boolean delete(int id) {
@@ -33,9 +41,5 @@ public class RestaurantRepository {
 
     public Restaurant save(Restaurant restaurant) {
         return jpaRestaurantRepository.save(restaurant);
-    }
-
-    public Restaurant getWithDishes(int id) {
-        return jpaRestaurantRepository.getWithDishes(id);
     }
 }

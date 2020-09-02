@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.internship.voting.model.Restaurant;
 
+import java.util.List;
+
 @Component
 @Transactional(readOnly = true)
 public interface DataJpaRestaurantRepository extends JpaRepository<Restaurant, Integer> {
@@ -21,4 +23,8 @@ public interface DataJpaRestaurantRepository extends JpaRepository<Restaurant, I
     @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT r FROM Restaurant r WHERE r.id=:id")
     Restaurant getWithDishes(@Param("id") int id);
+
+    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("SELECT r FROM Restaurant r")
+    List<Restaurant> getAllWithDishes();
 }

@@ -1,5 +1,7 @@
 package ru.internship.voting.web.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
@@ -18,6 +20,8 @@ import static ru.internship.voting.util.ValidationUtil.*;
 @RequestMapping(value = "/admin/restaurants", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminRestController {
 
+    private static final Logger log = LoggerFactory.getLogger(AdminRestController.class);
+
     private final RestaurantRepository restaurantRepository;
     private final DishRepository dishRepository;
 
@@ -30,6 +34,7 @@ public class AdminRestController {
     public ResponseEntity<Restaurant> addNewRestaurant(@RequestBody Restaurant restaurant) {
         checkNew(restaurant);
         Assert.notNull(restaurant, "restaurant must not be null");
+        log.info("Create new restaurant by admin");
         Restaurant created = restaurantRepository.save(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/admin/restaurants")
@@ -38,20 +43,23 @@ public class AdminRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @GetMapping("/{id}")
-    public Restaurant getRestaurantById(@PathVariable int id) {
-        return checkNotFoundWithId(restaurantRepository.get(id), id);
+    @GetMapping("/{restId}")
+    public Restaurant getRestaurantById(@PathVariable int restId) {
+        log.info("Get restaurant {} by admin", restId);
+        return checkNotFoundWithId(restaurantRepository.get(restId), restId);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteRestaurant(@PathVariable int id) {
-        checkNotFoundWithId(restaurantRepository.delete(id), id);
+    @DeleteMapping("/{restId}")
+    public void deleteRestaurant(@PathVariable int restId) {
+        log.info("Delete restaurant {} by admin", restId);
+        checkNotFoundWithId(restaurantRepository.delete(restId), restId);
     }
 
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateRestaurant(@RequestBody Restaurant restaurant, @PathVariable int id) {
-        assureIdConsistent(restaurant, id);
+    @PutMapping(value = "/{restId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void updateRestaurant(@RequestBody Restaurant restaurant, @PathVariable int restId) {
+        assureIdConsistent(restaurant, restId);
         Assert.notNull(restaurant, "restaurant must not be null");
+        log.info("Update restaurant {} by admin", restId);
         restaurantRepository.save(restaurant);
     }
 
@@ -60,6 +68,7 @@ public class AdminRestController {
         checkNew(dish);
         Assert.notNull(dish, "dish must not be null");
         Dish created = dishRepository.save(dish, restId);
+        log.info("Create new dish in restaurant {} by admin", restId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/admin/restaurants/{restId}/dishes")
                 .buildAndExpand(created.getId())
@@ -69,11 +78,13 @@ public class AdminRestController {
 
     @GetMapping("/{restId}/dishes/{id}")
     public Dish getDishById(@PathVariable int restId, @PathVariable int id) {
+        log.info("Get dish {} from restaurant {} by admin", id, restId);
         return checkNotFoundWithId(dishRepository.get(id, restId), id);
     }
 
     @DeleteMapping("/{restId}/dishes/{id}")
     public void deleteDish(@PathVariable int restId, @PathVariable int id) {
+        log.info("Delete dish {} from restaurant {} by admin", id, restId);
         checkNotFoundWithId(dishRepository.delete(id, restId), id);
     }
 
@@ -81,6 +92,7 @@ public class AdminRestController {
     public void updateDish(@RequestBody Dish dish, @PathVariable int restId, @PathVariable int id) {
         assureIdConsistent(dish, id);
         Assert.notNull(dish, "dish must not be null");
+        log.info("Update dish {} from restaurant {} by admin", id, restId);
         checkNotFoundWithId(dishRepository.save(dish, restId), dish.getId());
     }
 }

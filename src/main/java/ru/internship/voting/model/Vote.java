@@ -18,7 +18,7 @@ public class Vote extends AbstractBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
+//    @JsonBackReference
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,11 +30,11 @@ public class Vote extends AbstractBaseEntity {
     public Vote() {
     }
 
-    public Vote(LocalDate date, LocalTime time) {
-        this(null, date, time);
+    public Vote(LocalDate date) {
+        this(null, date);
     }
 
-    public Vote(Integer id, LocalDate date, LocalTime time) {
+    public Vote(Integer id, LocalDate date) {
         super(id);
         this.date = date;
     }
