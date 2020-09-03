@@ -1,11 +1,12 @@
 package ru.internship.voting.util.exception;
 
-public class NotFoundException extends ApplicationException {
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-    public static final String NOT_FOUND_EXCEPTION = "exception.common.notFound";
+@ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY, reason = "No data found")
+public class NotFoundException extends RuntimeException {
 
-    //  http://stackoverflow.com/a/22358422/548473
-    public NotFoundException(String arg) {
-        super(ErrorType.DATA_NOT_FOUND, NOT_FOUND_EXCEPTION, arg);
+    public NotFoundException(String message) {
+        super(message);
     }
 }

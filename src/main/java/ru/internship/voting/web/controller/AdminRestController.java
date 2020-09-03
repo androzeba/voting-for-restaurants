@@ -59,6 +59,7 @@ public class AdminRestController {
     public void updateRestaurant(@RequestBody Restaurant restaurant, @PathVariable int restId) {
         assureIdConsistent(restaurant, restId);
         Assert.notNull(restaurant, "restaurant must not be null");
+        checkNotFoundWithId(restaurantRepository.get(restId) != null, restId);
         log.info("Update restaurant {} by admin", restId);
         restaurantRepository.save(restaurant);
     }

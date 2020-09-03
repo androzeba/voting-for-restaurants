@@ -22,9 +22,4 @@ public class DateTimeUtil {
     public static boolean isTimeToUpdate() {
         return LocalTime.now().isBefore(LocalTime.of(21, 0, 0));
     }
-
-//    public static @Nullable
-//    LocalDate parseLocalDate(@Nullable String str) {
-//        return StringUtils.isEmpty(str) ? null : LocalDate.parse(str);
-//    }
 }
