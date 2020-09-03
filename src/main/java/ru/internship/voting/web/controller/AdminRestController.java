@@ -2,6 +2,7 @@ package ru.internship.voting.web.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
@@ -50,12 +51,14 @@ public class AdminRestController {
     }
 
     @DeleteMapping("/{restId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteRestaurant(@PathVariable int restId) {
         log.info("Delete restaurant {} by admin", restId);
         checkNotFoundWithId(restaurantRepository.delete(restId), restId);
     }
 
     @PutMapping(value = "/{restId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void updateRestaurant(@RequestBody Restaurant restaurant, @PathVariable int restId) {
         assureIdConsistent(restaurant, restId);
         Assert.notNull(restaurant, "restaurant must not be null");
@@ -84,12 +87,14 @@ public class AdminRestController {
     }
 
     @DeleteMapping("/{restId}/dishes/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteDish(@PathVariable int restId, @PathVariable int id) {
         log.info("Delete dish {} from restaurant {} by admin", id, restId);
         checkNotFoundWithId(dishRepository.delete(id, restId), id);
     }
 
     @PutMapping(value = "/{restId}/dishes/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void updateDish(@RequestBody Dish dish, @PathVariable int restId, @PathVariable int id) {
         assureIdConsistent(dish, id);
         Assert.notNull(dish, "dish must not be null");
