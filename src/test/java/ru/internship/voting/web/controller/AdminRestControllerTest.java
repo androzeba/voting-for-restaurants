@@ -103,7 +103,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getDishById() throws Exception {
-        perform(MockMvcRequestBuilders.get(RESTAURANT_URL + RESTAURANT2_ID + DISH_URL + DISH4_ID))
+        perform(MockMvcRequestBuilders.get(RESTAURANT_URL + RESTAURANT1_ID + DISH_URL + DISH4_ID))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

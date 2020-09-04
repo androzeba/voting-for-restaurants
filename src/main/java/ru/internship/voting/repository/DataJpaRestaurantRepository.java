@@ -25,6 +25,6 @@ public interface DataJpaRestaurantRepository extends JpaRepository<Restaurant, I
     Restaurant getWithDishes(@Param("id") int id);
 
     @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT r FROM Restaurant r")
+    @Query("SELECT r FROM Restaurant r ORDER BY r.name")
     List<Restaurant> getAllWithDishes();
 }
