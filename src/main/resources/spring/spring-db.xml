@@ -41,6 +41,9 @@
                        value="true"/>
                 <entry key="#{T(org.hibernate.cfg.AvailableSettings).JPA_PROXY_COMPLIANCE}"
                        value="false"/>
+
+                <entry key="javax.persistence.validation.group.pre-persist" value="ru.internship.voting.View$Persist"/>
+                <entry key="javax.persistence.validation.group.pre-update" value="ru.internship.voting.View$Persist"/>
             </map>
         </property>
 

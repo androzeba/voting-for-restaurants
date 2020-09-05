@@ -17,13 +17,13 @@ import ru.internship.voting.repository.RestaurantRepository;
 import ru.internship.voting.repository.VoteRepository;
 import ru.internship.voting.util.DateTimeUtil;
 import ru.internship.voting.util.exception.IllegalRequestDataException;
-import ru.internship.voting.web.SecurityUtil;
 
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
 import static ru.internship.voting.util.ValidationUtil.checkNotFoundWithId;
+import static ru.internship.voting.web.SecurityUtil.authUserId;
 
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -68,36 +68,33 @@ public class ProfileRestController {
 
     @GetMapping("/restaurants/{restId}/dishes/filter")
     public List<Dish> getFilteredDishesByRestId(@PathVariable int restId,
-                                        @RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-                                        @RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+                                                @RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                                @RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         log.info("Get dishes from restaurant {} between dates ({} - {})", restId, startDate, endDate);
         return dishRepository.getBetween(DateTimeUtil.dateOrMin(startDate), DateTimeUtil.dateOrMax(endDate), restId);
     }
 
     @GetMapping("/votes")
     public List<Vote> getAllVotes() {
-        int userId = SecurityUtil.getAuthUserId();
-        log.info("Get all votes for user {}", userId);
-        return voteRepository.getAll(userId);
+        log.info("Get all votes for user {}", authUserId());
+        return voteRepository.getAll(authUserId());
     }
 
     @GetMapping("/votes/filter")
     public List<Vote> getFilteredVotes(@RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                                        @RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-        int userId = SecurityUtil.getAuthUserId();
-        log.info("Get all votes for user {} between dates ({} - {})", userId, startDate, endDate);
-        return voteRepository.getBetween(DateTimeUtil.dateOrMin(startDate), DateTimeUtil.dateOrMax(endDate), userId);
+        log.info("Get all votes for user {} between dates ({} - {})", authUserId(), startDate, endDate);
+        return voteRepository.getBetween(DateTimeUtil.dateOrMin(startDate), DateTimeUtil.dateOrMax(endDate), authUserId());
     }
 
     @PostMapping(value = "/do-vote/{restId}")
     public ResponseEntity<Vote> createOrUpdateVote(@PathVariable int restId) {
-        int userId = SecurityUtil.getAuthUserId();
         LocalDate date = LocalDate.now();
-        Vote currentVote = voteRepository.getByDateAndUserId(date, userId);
+        Vote currentVote = voteRepository.getByDateAndUserId(date, authUserId());
         if (currentVote == null) {
             Vote vote = new Vote(date);
-            log.info("Create new vote for user {}", userId);
-            Vote created = voteRepository.save(vote, userId, restId);
+            log.info("Create new vote for user {}", authUserId());
+            Vote created = voteRepository.save(vote, authUserId(), restId);
             URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("/votes")
                     .buildAndExpand(created.getId())
@@ -105,8 +102,8 @@ public class ProfileRestController {
             return ResponseEntity.created(uriOfNewResource).body(created);
         }
         if (DateTimeUtil.isTimeToUpdate()) {
-            log.info("Update vote for user {}", userId);
-            Vote updated = checkNotFoundWithId(voteRepository.save(currentVote, userId, restId), currentVote.getId());
+            log.info("Update vote for user {}", authUserId());
+            Vote updated = checkNotFoundWithId(voteRepository.save(currentVote, authUserId(), restId), currentVote.getId());
             return ResponseEntity.ok(updated);
         }
         throw new IllegalRequestDataException("no more voting available today");

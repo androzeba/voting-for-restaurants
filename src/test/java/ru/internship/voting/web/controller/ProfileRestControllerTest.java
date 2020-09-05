@@ -3,25 +3,17 @@ package ru.internship.voting.web.controller;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.internship.voting.VoteTestData;
-import ru.internship.voting.model.Vote;
 import ru.internship.voting.repository.RestaurantRepository;
 import ru.internship.voting.web.AbstractControllerTest;
-import ru.internship.voting.web.json.JsonUtil;
 
-import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.internship.voting.TestUtil.readFromJson;
-import static ru.internship.voting.CommonTestData.NOT_FOUND;
-import static org.junit.jupiter.api.Assertions.*;
-import static ru.internship.voting.RestaurantTestData.*;
 import static ru.internship.voting.DishTestData.*;
+import static ru.internship.voting.RestaurantTestData.*;
+import static ru.internship.voting.TestUtil.userHttpBasic;
+import static ru.internship.voting.UserTestData.*;
 import static ru.internship.voting.VoteTestData.*;
 
 class ProfileRestControllerTest extends AbstractControllerTest {
@@ -35,7 +27,8 @@ class ProfileRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getAllRestaurants() throws Exception {
-        perform(MockMvcRequestBuilders.get(RESTAURANT_URL))
+        perform(MockMvcRequestBuilders.get(RESTAURANT_URL)
+                .with(userHttpBasic(USER1)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -44,7 +37,8 @@ class ProfileRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getRestaurantWithDishes() throws Exception {
-        perform(MockMvcRequestBuilders.get(RESTAURANT_URL + RESTAURANT1_ID + "/with-dishes"))
+        perform(MockMvcRequestBuilders.get(RESTAURANT_URL + RESTAURANT1_ID + "/with-dishes")
+                .with(userHttpBasic(USER1)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -53,7 +47,8 @@ class ProfileRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getAllDishesByRestId() throws Exception {
-        perform(MockMvcRequestBuilders.get(RESTAURANT_URL + RESTAURANT1_ID + DISH_URL))
+        perform(MockMvcRequestBuilders.get(RESTAURANT_URL + RESTAURANT1_ID + DISH_URL)
+                .with(userHttpBasic(USER1)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -64,7 +59,8 @@ class ProfileRestControllerTest extends AbstractControllerTest {
     void getFilteredDishesByRestId() throws Exception {
         perform(MockMvcRequestBuilders.get(RESTAURANT_URL + RESTAURANT1_ID + DISH_URL + "filter")
                 .param("startDate", "2020-08-02")
-                .param("endDate", "2020-08-03"))
+                .param("endDate", "2020-08-03")
+                .with(userHttpBasic(USER1)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -73,7 +69,8 @@ class ProfileRestControllerTest extends AbstractControllerTest {
 
     @Test
     void getAllVotes() throws Exception {
-        perform(MockMvcRequestBuilders.get(VOTE_URL))
+        perform(MockMvcRequestBuilders.get(VOTE_URL)
+                .with(userHttpBasic(USER2)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -81,10 +78,17 @@ class ProfileRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    void getUnAuth() throws Exception {
+        perform(MockMvcRequestBuilders.get(VOTE_URL))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     void getFilteredVotes() throws Exception {
         perform(MockMvcRequestBuilders.get(VOTE_URL + "filter")
                 .param("startDate", "2020-08-04")
-                .param("endDate", "2020-08-07"))
+                .param("endDate", "2020-08-07")
+                .with(userHttpBasic(USER2)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

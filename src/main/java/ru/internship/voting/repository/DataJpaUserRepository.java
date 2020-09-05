@@ -8,4 +8,6 @@ import ru.internship.voting.model.User;
 @Component
 @Transactional(readOnly = true)
 public interface DataJpaUserRepository extends JpaRepository<User, Integer> {
+
+    User getByEmail(String email);
 }

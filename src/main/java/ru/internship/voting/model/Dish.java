@@ -3,8 +3,13 @@ package ru.internship.voting.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
+import ru.internship.voting.View;
+import ru.internship.voting.util.DateTimeUtil;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -12,15 +17,20 @@ import java.time.LocalDate;
 public class Dish extends AbstractNamedEntity {
 
     @Column(name = "date", nullable = false)
+    @NotNull
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_PATTERN)
     private LocalDate date;
 
     @Column(name = "price", nullable = false)
+    @NotNull
+    @Range(min = 1, max = 100000)
     private Integer price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
+    @NotNull(groups = View.Persist.class)
     private Restaurant restaurant;
 
     public Dish() {

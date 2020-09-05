@@ -30,10 +30,7 @@ public class DishRepository {
     }
 
     public boolean delete(int id, int restId) {
-        if (get(id, restId) == null) {
-            return false;
-        }
-        return jpaDishRepository.delete(id) != 0;
+        return jpaDishRepository.delete(id, restId) != 0;
     }
 
     public Dish save(Dish dish, int restId) {
