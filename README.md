@@ -38,56 +38,56 @@ The main application context is "/voting"
 
 ### ADMIN commands:
 
-* Create a new restaurant: 
+#### Create a new restaurant: 
 
 POST request on URL "http://localhost:8080/voting/admin/restaurants"
 
 cURL example: 
 `curl -s -X POST -d '{"name":"New Restaurant"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voting/admin/restaurants --user admin@gmail.com:admin`
 ---
-* Get restaurant by rest_ID:
+#### Get restaurant by rest_ID:
 
 GET request on URL "http://localhost:8080/voting/admin/restaurants/{rest_ID}"
 
 cURL example: 
 `curl -s http://localhost:8080/voting/admin/restaurants/100005 --user admin@gmail.com:admin`
 ---
-* Update restaurant by rest_ID:
+#### Update restaurant by rest_ID:
 
 PUT request on URL "http://localhost:8080/voting/admin/restaurants/{rest_ID}"
 
 cURL example: 
 `curl -s -X PUT -d '{"name":"Updated Restaurant"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voting/admin/restaurants/100005 --user admin@gmail.com:admin`
 ---
-* Delete a restaurant by rest_ID
+#### Delete a restaurant by rest_ID
 
 DELETE request on URL "http://localhost:8080/voting/admin/restaurants/{rest_ID}"
 
 cURL example: 
 `curl -s -X DELETE http://localhost:8080/voting/admin/restaurants/100005 --user admin@gmail.com:admin`
 ---
-* Create a new dish for a restaurant with rest_ID
+#### Create a new dish for a restaurant with rest_ID
 
 POST request on URL "http://localhost:8080/voting/admin/restaurants/{rest_ID}/dishes"
 
 cURL example: 
 `curl -s -X POST -d '{"name":"New Dish","date":"2020-09-04","price":"500"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voting/admin/restaurants/100007/dishes --user admin@gmail.com:admin`
 ---
-* Get dish by ID for a restaurant with rest_ID
+#### Get dish by ID for a restaurant with rest_ID
 
 GET request on URL "http://localhost:8080/voting/admin/restaurants/{rest_ID}/dishes/{ID}"
 
 cURL example: 
 `curl -s http://localhost:8080/voting/admin/restaurants/100007/dishes/100051 --user admin@gmail.com:admin`
 ---
-* Update dish by ID for a restaurant with rest_ID
+#### Update dish by ID for a restaurant with rest_ID
 
 PUT request on URL "http://localhost:8080/voting/admin/restaurants/{rest_ID}/dishes/{ID}"
 
 cURL example: 
 `curl -s -X PUT -d '{"name":"Updated Dish","date":"2020-08-06","price":"200"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voting/admin/restaurants/100007/dishes/100051 --user admin@gmail.com:admin`
 ---
-* Delete a dish by ID for a restaurant with rest_ID
+#### Delete a dish by ID for a restaurant with rest_ID
 
 DELETE request on URL "http://localhost:8080/voting/admin/restaurants/{rest_ID}/dishes/{ID}"
 
@@ -95,61 +95,61 @@ cURL example:
 `curl -s -X DELETE http://localhost:8080/voting/admin/restaurants/100007/dishes/100051 --user admin@gmail.com:admin`
 ---
 
-## USER commands:
+### USER commands:
 
-* Get all restaurants
+#### Get all restaurants
 
 GET request on URL "http://localhost:8080/voting/restaurants"
 
 cURL example: 
 `curl -s http://localhost:8080/voting/restaurants --user user1@yandex.ru:password1`
 ---
-* Get all restaurants with dishes
+#### Get all restaurants with dishes
 
 GET request on URL "http://localhost:8080/voting/restaurants/with-dishes"
 
 cURL example: 
 `curl -s http://localhost:8080/voting/restaurants/with-dishes --user user1@yandex.ru:password1`
 ---
-* Get one restaurant by rest_ID with dishes
+#### Get one restaurant by rest_ID with dishes
 
 GET request on URL "http://localhost:8080/voting/restaurants/{rest_ID}/with-dishes"
 
 cURL example: 
 `curl -s http://localhost:8080/voting/restaurants/100004/with-dishes --user user1@yandex.ru:password1`
 ---
-* Get all dishes in a restaurant with rest_ID
+#### Get all dishes in a restaurant with rest_ID
 
 GET request on URL "http://localhost:8080/voting/restaurants/{rest_ID}/dishes"
 
 cURL example: 
 `curl -s http://localhost:8080/voting/restaurants/100004/dishes --user user1@yandex.ru:password1`
 ---
-* Get filtered dishes
+#### Get filtered dishes
 
 GET request on URL "http://localhost:8080/voting/restaurants/{rest_ID}/dishes/filter" with parameters startDate, endDate (any parameter may be null)
 
 cURL example: 
-`curl -s http://localhost:8080/voting/restaurants/100004/dishes/filter?startDate=2020-08-02&endDate=2020-08-03 --user user1@yandex.ru:password1`
+`curl -s "http://localhost:8080/voting/restaurants/100004/dishes/filter?startDate=2020-08-02&endDate=2020-08-03" --user user1@yandex.ru:password1`
 ---
-* Create a new vote for a restaurant with rest_ID
+#### Create a new vote for a restaurant with rest_ID
 
 POST request on URL "http://localhost:8080/voting/do-vote/{rest_ID}"
 
 cURL example: 
-`curl -s -X POST http://localhost:8080/voting/do-vote/100004 --user admin@gmail.com:admin`
+`curl -s -X POST http://localhost:8080/voting/do-vote/100004 --user user1@yandex.ru:password1`
 ---
-* Get all votes
+#### Get all votes
 
 GET request on URL "http://localhost:8080/voting/votes"
 
 cURL example: 
 `curl -s http://localhost:8080/voting/votes --user user1@yandex.ru:password1`
 ---
-* Get filtered votes
+#### Get filtered votes
 
 GET request on URL "http://localhost:8080/voting/votes/filter" parameters startDate, endDate (any parameter may be null)
 
 cURL example: 
-`curl -s http://localhost:8080/voting/votes/filter?startDate=2020-08-02&endDate=2020-08-03 --user user1@yandex.ru:password1`
+`curl -s "http://localhost:8080/voting/votes/filter?startDate=2020-08-02&endDate=2020-08-03" --user user1@yandex.ru:password1`
 ---
