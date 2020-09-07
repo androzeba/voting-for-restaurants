@@ -71,28 +71,28 @@ cURL example:
 POST request on URL "http://localhost:8080/voting/admin/restaurants/{rest_ID}/dishes"
 
 cURL example: 
-`curl -s -X POST -d '{"name":"New Dish","date":"2020-09-04","price":"500"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voting/admin/restaurants/100005/dishes --user admin@gmail.com:admin`
+`curl -s -X POST -d '{"name":"New Dish","date":"2020-09-04","price":"500"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voting/admin/restaurants/100007/dishes --user admin@gmail.com:admin`
 ---
 * Get dish by ID for a restaurant with rest_ID
 
 GET request on URL "http://localhost:8080/voting/admin/restaurants/{rest_ID}/dishes/{ID}"
 
 cURL example: 
-`curl -s http://localhost:8080/voting/admin/restaurants/100005/dishes/100046 --user admin@gmail.com:admin`
+`curl -s http://localhost:8080/voting/admin/restaurants/100007/dishes/100051 --user admin@gmail.com:admin`
 ---
 * Update dish by ID for a restaurant with rest_ID
 
 PUT request on URL "http://localhost:8080/voting/admin/restaurants/{rest_ID}/dishes/{ID}"
 
 cURL example: 
-`curl -s -X PUT -d '{"name":"Updated Dish","date":"2020-08-06","price":"200"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voting/admin/restaurants/100005/dishes/100046 --user admin@gmail.com:admin`
+`curl -s -X PUT -d '{"name":"Updated Dish","date":"2020-08-06","price":"200"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voting/admin/restaurants/100007/dishes/100051 --user admin@gmail.com:admin`
 ---
 * Delete a dish by ID for a restaurant with rest_ID
 
 DELETE request on URL "http://localhost:8080/voting/admin/restaurants/{rest_ID}/dishes/{ID}"
 
 cURL example: 
-`curl -s -X DELETE http://localhost:8080/voting/admin/restaurants/100005/dishes/100046 --user admin@gmail.com:admin`
+`curl -s -X DELETE http://localhost:8080/voting/admin/restaurants/100007/dishes/100051 --user admin@gmail.com:admin`
 ---
 
 ## USER commands:
