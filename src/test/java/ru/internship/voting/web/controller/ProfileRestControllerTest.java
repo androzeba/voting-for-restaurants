@@ -13,7 +13,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.internship.voting.DishTestData.*;
 import static ru.internship.voting.RestaurantTestData.*;
 import static ru.internship.voting.TestUtil.userHttpBasic;
-import static ru.internship.voting.UserTestData.*;
+import static ru.internship.voting.UserTestData.USER1;
+import static ru.internship.voting.UserTestData.USER2;
 import static ru.internship.voting.VoteTestData.*;
 
 class ProfileRestControllerTest extends AbstractControllerTest {
@@ -95,21 +96,11 @@ class ProfileRestControllerTest extends AbstractControllerTest {
                 .andExpect(VOTE_MATCHER.contentJson(VOTE7, VOTE5));
     }
 
-    @Test
-    void createVote() throws Exception {
-//        Vote newVote = new Vote(LocalDate.now());
-//        newVote.setRestaurant(RESTAURANT2);
-//        ResultActions action = perform(MockMvcRequestBuilders.post("/do-vote/" + RESTAURANT2_ID)
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isCreated())
-//                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-//        Vote created = readFromJson(action, Vote.class);
-//        newVote.setId(created.getId());
-//        VOTE_MATCHER.assertMatch(created, newVote);
-//        RESTAURANT_MATCHER.assertMatch(created.getRestaurant(), RESTAURANT2);
-    }
-
-    @Test
-    void updateVote() {
-    }
+//    @Test
+//    void createVote() throws Exception {
+//    }
+//
+//    @Test
+//    void updateVote() {
+//    }
 }

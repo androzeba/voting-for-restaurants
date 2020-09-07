@@ -15,10 +15,10 @@ public class ValidationUtil {
         checkNotFound(found, "id=" + id);
     }
 
-    public static <T> T checkNotFound(T object, String msg) {
-        checkNotFound(object != null, msg);
-        return object;
-    }
+//    public static <T> T checkNotFound(T object, String msg) {
+//        checkNotFound(object != null, msg);
+//        return object;
+//    }
 
     public static void checkNotFound(boolean found, String arg) {
         if (!found) {
@@ -33,7 +33,7 @@ public class ValidationUtil {
     }
 
     public static void assureIdConsistent(AbstractBaseEntity bean, int id) {
-        if(bean.isNew()) {
+        if (bean.isNew()) {
             bean.setId(id);
         } else if (bean.getId() != id) {
             throw new IllegalRequestDataException(bean + " must be with id=" + id);

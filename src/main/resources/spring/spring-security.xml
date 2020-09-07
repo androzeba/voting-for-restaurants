@@ -5,10 +5,10 @@
              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <beans:bean name="noopEncoder"
-                class="org.springframework.security.crypto.password.NoOpPasswordEncoder"/>
+    <beans:bean class="org.springframework.security.crypto.factory.PasswordEncoderFactories" id="passwordEncoder"
+                factory-method="createDelegatingPasswordEncoder"/>
 
-    <http pattern="/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless">
+    <http pattern="/**" use-expressions="true" name="restSecurityFilterChain">
         <http-basic/>
         <intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
         <intercept-url pattern="/**" access="isAuthenticated()"/>
@@ -17,7 +17,7 @@
 
     <authentication-manager>
         <authentication-provider user-service-ref="userRepository">
-            <password-encoder ref="noopEncoder"/>
+            <password-encoder ref="passwordEncoder"/>
         </authentication-provider>
     </authentication-manager>
 

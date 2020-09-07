@@ -31,10 +31,6 @@ public class VoteRepository {
         return jpaVoteRepository.getAll(userId);
     }
 
-//    public List<Vote> getAllWithRestaurant(int userId) {
-//        return jpaVoteRepository.getAllWithRestaurant(userId);
-//    }
-
     public Vote save(Vote vote, int userId, int restId) {
         if (!vote.isNew() && get(vote.getId(), userId) == null) {
             return null;
@@ -51,8 +47,4 @@ public class VoteRepository {
     public List<Vote> getBetween(LocalDate startDate, LocalDate endDate, int userId) {
         return jpaVoteRepository.getBetween(startDate, endDate, userId);
     }
-
-//    public List<Vote> getBetweenWithRestaurant(LocalDate startDate, LocalDate endDate, int userId) {
-//        return jpaVoteRepository.getBetween(startDate, endDate, userId);
-//    }
 }

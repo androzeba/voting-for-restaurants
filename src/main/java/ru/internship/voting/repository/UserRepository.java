@@ -11,7 +11,6 @@ import ru.internship.voting.AuthorizedUser;
 import ru.internship.voting.model.User;
 
 @Repository
-@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserRepository implements UserDetailsService {
 
     private final DataJpaUserRepository jpaUserRepository;

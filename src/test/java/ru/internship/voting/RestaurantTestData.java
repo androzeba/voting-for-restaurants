@@ -2,11 +2,9 @@ package ru.internship.voting;
 
 import ru.internship.voting.model.Restaurant;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static ru.internship.voting.model.AbstractBaseEntity.START_SEQ;
 import static ru.internship.voting.DishTestData.DISHES;
+import static ru.internship.voting.model.AbstractBaseEntity.START_SEQ;
 
 public class RestaurantTestData {
     public static TestMatcher<Restaurant> RESTAURANT_MATCHER = TestMatcher.usingFieldsWithIgnoringAssertions(Restaurant.class, "dishes");
@@ -32,7 +30,6 @@ public class RestaurantTestData {
 
     static {
         RESTAURANT1.setDishes(DISHES);
-//        ADMIN.setMeals(List.of(ADMIN_MEAL2, ADMIN_MEAL1));
     }
 
     public static Restaurant getNew() {

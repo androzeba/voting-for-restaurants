@@ -1,7 +1,5 @@
 package ru.internship.voting;
 
-import ru.internship.voting.model.Dish;
-import ru.internship.voting.model.Restaurant;
 import ru.internship.voting.model.Vote;
 
 import java.time.LocalDate;

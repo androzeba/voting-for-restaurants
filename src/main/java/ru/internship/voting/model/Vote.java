@@ -1,16 +1,13 @@
 package ru.internship.voting.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
-import ru.internship.voting.View;
 import ru.internship.voting.util.DateTimeUtil;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Entity
 @Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"}, name = "votes_idx")})
@@ -24,15 +21,13 @@ public class Vote extends AbstractBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-//    @JsonBackReference
-    @NotNull(groups = View.Persist.class)
+    @NotNull
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-//    @JsonBackReference
-    @NotNull(groups = View.Persist.class)
+    @NotNull
     private Restaurant restaurant;
 
     public Vote() {

@@ -19,12 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.internship.voting.TestUtil.readFromJson;
 import static ru.internship.voting.CommonTestData.NOT_FOUND;
-import static ru.internship.voting.RestaurantTestData.*;
 import static ru.internship.voting.DishTestData.*;
+import static ru.internship.voting.RestaurantTestData.*;
+import static ru.internship.voting.TestUtil.readFromJson;
 import static ru.internship.voting.TestUtil.userHttpBasic;
-import static ru.internship.voting.UserTestData.*;
+import static ru.internship.voting.UserTestData.ADMIN;
 import static ru.internship.voting.util.ValidationUtil.checkNotFoundWithId;
 
 class AdminRestControllerTest extends AbstractControllerTest {

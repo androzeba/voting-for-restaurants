@@ -1,6 +1,5 @@
 package ru.internship.voting.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.util.CollectionUtils;
 
@@ -39,7 +38,6 @@ public class User extends AbstractNamedEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     @OrderBy("date DESC")
-//    @JsonManagedReference
     private List<Vote> votes;
 
     public User() {
