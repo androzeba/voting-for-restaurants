@@ -2,6 +2,7 @@ package ru.internship.voting.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.internship.voting.model.Dish;
 
 import java.time.LocalDate;
@@ -33,6 +34,7 @@ public class DishRepository {
         return jpaDishRepository.delete(id, restId) != 0;
     }
 
+    @Transactional
     public Dish save(Dish dish, int restId) {
         if (!dish.isNew() && get(dish.getId(), restId) == null) {
             return null;

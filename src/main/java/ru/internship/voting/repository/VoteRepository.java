@@ -2,6 +2,7 @@ package ru.internship.voting.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.internship.voting.model.Vote;
 
 import java.time.LocalDate;
@@ -31,6 +32,7 @@ public class VoteRepository {
         return jpaVoteRepository.getAll(userId);
     }
 
+    @Transactional
     public Vote save(Vote vote, int userId, int restId) {
         if (!vote.isNew() && get(vote.getId(), userId) == null) {
             return null;

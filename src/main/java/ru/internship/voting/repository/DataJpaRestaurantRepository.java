@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.internship.voting.model.Restaurant;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -20,11 +21,11 @@ public interface DataJpaRestaurantRepository extends JpaRepository<Restaurant, I
     @Query("DELETE FROM Restaurant r WHERE r.id=:id")
     int delete(@Param("id") int id);
 
-//    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
+    //    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT r FROM Restaurant r LEFT JOIN FETCH r.dishes WHERE r.id=:id")
     Restaurant getWithDishes(@Param("id") int id);
 
-//    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT DISTINCT r FROM Restaurant r LEFT JOIN FETCH r.dishes ORDER BY r.name")
-    List<Restaurant> getAllWithDishes();
+    //    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("SELECT DISTINCT r FROM Restaurant r LEFT JOIN FETCH r.dishes d WHERE d.date=:now ORDER BY r.name")
+    List<Restaurant> getAllWithDishes(@Param("now") LocalDate now);
 }

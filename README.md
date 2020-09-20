@@ -104,7 +104,7 @@ GET request on URL "http://localhost:8080/voting/restaurants"
 cURL example: 
 `curl -s http://localhost:8080/voting/restaurants --user user1@yandex.ru:password1`
 ---
-#### Get all restaurants with dishes
+#### Get all restaurants with today's menu
 
 GET request on URL "http://localhost:8080/voting/restaurants/with-dishes"
 
@@ -127,17 +127,24 @@ cURL example:
 ---
 #### Get filtered dishes
 
-GET request on URL "http://localhost:8080/voting/restaurants/{rest_ID}/dishes/filter" with parameters startDate, endDate (any parameter may be null)
+GET request on URL "http://localhost:8080/voting/restaurants/{rest_ID}/dishes/filter" with parameters startDate, endDate (any parameter may be null); parameter format: yyyy-MM-dd
 
 cURL example: 
 `curl -s "http://localhost:8080/voting/restaurants/100004/dishes/filter?startDate=2020-08-02&endDate=2020-08-03" --user user1@yandex.ru:password1`
 ---
 #### Create a new vote for a restaurant with rest_ID
 
-POST request on URL "http://localhost:8080/voting/do-vote/{rest_ID}"
+POST request on URL "http://localhost:8080/voting/votes" with a parameter restId (required)
 
 cURL example: 
-`curl -s -X POST http://localhost:8080/voting/do-vote/100004 --user user1@yandex.ru:password1`
+`curl -s -X POST http://localhost:8080/voting/votes?restId=100004 --user user1@yandex.ru:password1`
+---
+#### Update a vote for a restaurant with rest_ID
+
+PUT request on URL "http://localhost:8080/voting/votes" with a parameter restId (required)
+
+cURL example: 
+`curl -s -X PUT http://localhost:8080/voting/votes?restId=100005 --user user1@yandex.ru:password1`
 ---
 #### Get all votes
 
@@ -148,7 +155,7 @@ cURL example:
 ---
 #### Get filtered votes
 
-GET request on URL "http://localhost:8080/voting/votes/filter" parameters startDate, endDate (any parameter may be null)
+GET request on URL "http://localhost:8080/voting/votes/filter" parameters startDate, endDate (any parameter may be null); parameter format: yyyy-MM-dd
 
 cURL example: 
 `curl -s "http://localhost:8080/voting/votes/filter?startDate=2020-08-02&endDate=2020-08-03" --user user1@yandex.ru:password1`

@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.internship.voting.model.Dish;
@@ -20,6 +21,7 @@ import ru.internship.voting.util.exception.IllegalRequestDataException;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import static ru.internship.voting.util.ValidationUtil.checkNotFoundWithId;
@@ -50,8 +52,8 @@ public class ProfileRestController {
 
     @GetMapping("/restaurants/with-dishes")
     public List<Restaurant> getAllRestaurantsWithDishes() {
-        log.info("Get all restaurants with dishes");
-        return restaurantRepository.getAllWithDishes();
+        log.info("Get all restaurants with today's menu");
+        return restaurantRepository.getAllWithDishes(DateTimeUtil.getNow());
     }
 
     @GetMapping("/restaurants/{restId}/with-dishes")
@@ -87,8 +89,8 @@ public class ProfileRestController {
         return voteRepository.getBetween(DateTimeUtil.dateOrMin(startDate), DateTimeUtil.dateOrMax(endDate), authUserId());
     }
 
-    @PostMapping(value = "/do-vote/{restId}")
-    public ResponseEntity<Vote> createOrUpdateVote(@PathVariable int restId) {
+    @PostMapping("/votes")
+    public ResponseEntity<Vote> createVote(@RequestParam int restId) {
         LocalDate date = LocalDate.now();
         Vote currentVote = voteRepository.getByDateAndUserId(date, authUserId());
         if (currentVote == null) {
@@ -101,11 +103,20 @@ public class ProfileRestController {
                     .toUri();
             return ResponseEntity.created(uriOfNewResource).body(created);
         }
+        throw new IllegalRequestDataException("vote already exists for logged user");
+    }
+
+    @PutMapping("/votes")
+    public void updateVote(@RequestParam int restId) {
+        LocalDate date = LocalDate.now();
+        Vote currentVote = voteRepository.getByDateAndUserId(date, authUserId());
+        Assert.notNull(currentVote, "vote for update not exists");
+        LocalTime time = DateTimeUtil.END_TIME_FOR_VOTE;
         if (DateTimeUtil.isTimeToUpdate()) {
             log.info("Update vote for user {}", authUserId());
-            Vote updated = checkNotFoundWithId(voteRepository.save(currentVote, authUserId(), restId), currentVote.getId());
-            return ResponseEntity.ok(updated);
+            checkNotFoundWithId(voteRepository.save(currentVote, authUserId(), restId), currentVote.getId());
+        } else {
+            throw new IllegalRequestDataException("no more voting available today");
         }
-        throw new IllegalRequestDataException("no more voting available today");
     }
 }

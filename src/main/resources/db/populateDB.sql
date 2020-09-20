@@ -1,7 +1,7 @@
-DELETE FROM user_roles;
-DELETE FROM dishes;
-DELETE FROM votes;
-DELETE FROM restaurants;
+DELETE FROM user_role;
+DELETE FROM dish;
+DELETE FROM vote;
+DELETE FROM restaurant;
 DELETE FROM users;
 
 ALTER SEQUENCE global_seq RESTART WITH 100000;
@@ -11,20 +11,20 @@ VALUES ('User1', 'user1@yandex.ru', '{noop}password1'),
        ('User2', 'user2@yandex.ru', '{noop}password2'),
        ('Admin', 'admin@gmail.com', '{noop}admin');
 
-INSERT INTO user_roles (role, user_id)
+INSERT INTO user_role (role, user_id)
 VALUES ('USER', 100000),
        ('USER', 100001),
        ('ADMIN', 100002),
        ('USER', 100002);
 
-INSERT INTO restaurants (name)
+INSERT INTO restaurant (name)
 VALUES ('Restaurant 1'),
        ('Restaurant 2'),
        ('Restaurant 3'),
        ('Restaurant 4'),
        ('Restaurant 5');
 
-INSERT INTO dishes (date, name, price, restaurant_id)
+INSERT INTO dish (date_of, name, price, restaurant_id)
 VALUES ('2020-08-01', 'Салат 1', 50, 100003),
        ('2020-08-01', 'Гарнир 1', 50, 100003),
        ('2020-08-01', 'Блюдо 1', 150, 100003),
@@ -71,7 +71,7 @@ VALUES ('2020-08-01', 'Салат 1', 50, 100003),
        ('2020-08-03', 'Гарнир 5', 50, 100007),
        ('2020-08-03', 'Напиток 5', 100, 100007);
 
-INSERT INTO votes (date, restaurant_id, user_id)
+INSERT INTO vote (date_of, restaurant_id, user_id)
 VALUES ('2020-08-01', 100005, 100000),
        ('2020-08-02', 100003, 100001),
        ('2020-08-03', 100004, 100002),

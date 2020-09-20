@@ -5,6 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import ru.internship.voting.model.Restaurant;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -31,8 +32,8 @@ public class RestaurantRepository {
         return jpaRestaurantRepository.findAll(SORT_NAME);
     }
 
-    public List<Restaurant> getAllWithDishes() {
-        return jpaRestaurantRepository.getAllWithDishes();
+    public List<Restaurant> getAllWithDishes(LocalDate now) {
+        return jpaRestaurantRepository.getAllWithDishes(now);
     }
 
     public boolean delete(int id) {

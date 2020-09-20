@@ -12,17 +12,17 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "date", "name"}, name = "dishes_idx")})
+@Table(name = "dish", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "date_of", "name"}, name = "dish_idx")})
 public class Dish extends AbstractNamedEntity {
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date_of", nullable = false)
     @NotNull
     @DateTimeFormat(pattern = DateTimeUtil.DATE_PATTERN)
     private LocalDate date;
 
     @Column(name = "price", nullable = false)
     @NotNull
-    @Range(min = 1, max = 100000)
+    @Range(min = 1, max = 1000000)
     private Integer price;
 
     @ManyToOne(fetch = FetchType.LAZY)
