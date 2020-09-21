@@ -152,6 +152,13 @@
             <version>${ehcache.version}</version>
         </dependency>
 
+        <!--https://medium.com/criciumadev/its-time-migrating-to-java-11-5eb3868354f9-->
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.4.0-b180830.0438</version>
+        </dependency>
+
         <!-- Tomcat -->
         <dependency>
             <groupId>org.apache.tomcat</groupId>

@@ -2,7 +2,6 @@ package ru.internship.voting.web.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,6 @@ public class AdminRestController {
         this.dishRepository = dishRepository;
     }
 
-    @CacheEvict(value = "app_cache", allEntries = true)
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> addNewRestaurant(@RequestBody Restaurant restaurant) {
         checkNew(restaurant);
@@ -52,7 +50,6 @@ public class AdminRestController {
         return checkNotFoundWithId(restaurantRepository.get(restId), restId);
     }
 
-    @CacheEvict(value = "app_cache", allEntries = true)
     @DeleteMapping("/{restId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteRestaurant(@PathVariable int restId) {
@@ -60,7 +57,6 @@ public class AdminRestController {
         checkNotFoundWithId(restaurantRepository.delete(restId), restId);
     }
 
-    @CacheEvict(value = "app_cache", allEntries = true)
     @PutMapping(value = "/{restId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void updateRestaurant(@RequestBody Restaurant restaurant, @PathVariable int restId) {
@@ -71,7 +67,6 @@ public class AdminRestController {
         restaurantRepository.save(restaurant);
     }
 
-    @CacheEvict(value = "app_cache", allEntries = true)
     @PostMapping(value = "/{restId}/dishes", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dish> addNewDish(@RequestBody Dish dish, @PathVariable int restId) {
         checkNew(dish);
@@ -91,7 +86,6 @@ public class AdminRestController {
         return checkNotFoundWithId(dishRepository.get(id, restId), id);
     }
 
-    @CacheEvict(value = "app_cache", allEntries = true)
     @DeleteMapping("/{restId}/dishes/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteDish(@PathVariable int restId, @PathVariable int id) {
@@ -99,7 +93,6 @@ public class AdminRestController {
         checkNotFoundWithId(dishRepository.delete(id, restId), id);
     }
 
-    @CacheEvict(value = "app_cache", allEntries = true)
     @PutMapping(value = "/{restId}/dishes/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void updateDish(@RequestBody Dish dish, @PathVariable int restId, @PathVariable int id) {

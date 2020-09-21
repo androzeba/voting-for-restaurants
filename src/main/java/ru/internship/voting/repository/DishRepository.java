@@ -1,6 +1,8 @@
 package ru.internship.voting.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.internship.voting.model.Dish;
@@ -26,14 +28,17 @@ public class DishRepository {
                 .orElse(null);
     }
 
+    @Cacheable("app_cache")
     public List<Dish> getAll(int restaurantId) {
         return jpaDishRepository.getAll(restaurantId);
     }
 
+    @CacheEvict(value = "app_cache", allEntries = true)
     public boolean delete(int id, int restId) {
         return jpaDishRepository.delete(id, restId) != 0;
     }
 
+    @CacheEvict(value = "app_cache", allEntries = true)
     @Transactional
     public Dish save(Dish dish, int restId) {
         if (!dish.isNew() && get(dish.getId(), restId) == null) {

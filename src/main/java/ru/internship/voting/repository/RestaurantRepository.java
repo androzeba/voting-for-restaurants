@@ -1,6 +1,8 @@
 package ru.internship.voting.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import ru.internship.voting.model.Restaurant;
@@ -24,22 +26,27 @@ public class RestaurantRepository {
         return jpaRestaurantRepository.findById(id).orElse(null);
     }
 
+    @Cacheable("app_cache")
     public Restaurant getWithDishes(int id) {
         return jpaRestaurantRepository.getWithDishes(id);
     }
 
+    @Cacheable("app_cache")
     public List<Restaurant> getAll() {
         return jpaRestaurantRepository.findAll(SORT_NAME);
     }
 
+    @Cacheable("app_cache")
     public List<Restaurant> getAllWithDishes(LocalDate now) {
         return jpaRestaurantRepository.getAllWithDishes(now);
     }
 
+    @CacheEvict(value = "app_cache", allEntries = true)
     public boolean delete(int id) {
         return jpaRestaurantRepository.delete(id) != 0;
     }
 
+    @CacheEvict(value = "app_cache", allEntries = true)
     public Restaurant save(Restaurant restaurant) {
         return jpaRestaurantRepository.save(restaurant);
     }
