@@ -3,7 +3,9 @@ package ru.internship.voting.web.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -44,30 +46,35 @@ public class ProfileRestController {
         this.voteRepository = voteRepository;
     }
 
+    @Cacheable("app_cache")
     @GetMapping("/restaurants")
     public List<Restaurant> getAllRestaurants() {
         log.info("Get all restaurants");
         return restaurantRepository.getAll();
     }
 
+    @Cacheable("app_cache")
     @GetMapping("/restaurants/with-dishes")
     public List<Restaurant> getAllRestaurantsWithDishes() {
         log.info("Get all restaurants with today's menu");
         return restaurantRepository.getAllWithDishes(DateTimeUtil.getNow());
     }
 
+    @Cacheable("app_cache")
     @GetMapping("/restaurants/{restId}/with-dishes")
     public Restaurant getRestaurantWithDishes(@PathVariable int restId) {
         log.info("Get restaurant {} with dishes", restId);
         return checkNotFoundWithId(restaurantRepository.getWithDishes(restId), restId);
     }
 
+    @Cacheable("app_cache")
     @GetMapping("/restaurants/{restId}/dishes")
     public List<Dish> getAllDishesByRestId(@PathVariable int restId) {
         log.info("Get all dishes from restaurant {}", restId);
         return dishRepository.getAll(restId);
     }
 
+    @Cacheable("app_cache")
     @GetMapping("/restaurants/{restId}/dishes/filter")
     public List<Dish> getFilteredDishesByRestId(@PathVariable int restId,
                                                 @RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
@@ -107,6 +114,7 @@ public class ProfileRestController {
     }
 
     @PutMapping("/votes")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void updateVote(@RequestParam int restId) {
         LocalDate date = LocalDate.now();
         Vote currentVote = voteRepository.getByDateAndUserId(date, authUserId());
