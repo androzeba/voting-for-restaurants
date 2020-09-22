@@ -6,8 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.internship.voting.View;
 import ru.internship.voting.model.Dish;
 import ru.internship.voting.model.Restaurant;
 import ru.internship.voting.repository.DishRepository;
@@ -32,7 +34,7 @@ public class AdminRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> addNewRestaurant(@RequestBody Restaurant restaurant) {
+    public ResponseEntity<Restaurant> addNewRestaurant(@Validated(View.Web.class) @RequestBody Restaurant restaurant) {
         checkNew(restaurant);
         Assert.notNull(restaurant, "restaurant must not be null");
         log.info("Create new restaurant by admin");
@@ -59,7 +61,7 @@ public class AdminRestController {
 
     @PutMapping(value = "/{restId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void updateRestaurant(@RequestBody Restaurant restaurant, @PathVariable int restId) {
+    public void updateRestaurant(@Validated(View.Web.class) @RequestBody Restaurant restaurant, @PathVariable int restId) {
         assureIdConsistent(restaurant, restId);
         Assert.notNull(restaurant, "restaurant must not be null");
         checkNotFoundWithId(restaurantRepository.get(restId) != null, restId);
@@ -68,7 +70,7 @@ public class AdminRestController {
     }
 
     @PostMapping(value = "/{restId}/dishes", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> addNewDish(@RequestBody Dish dish, @PathVariable int restId) {
+    public ResponseEntity<Dish> addNewDish(@Validated(View.Web.class) @RequestBody Dish dish, @PathVariable int restId) {
         checkNew(dish);
         Assert.notNull(dish, "dish must not be null");
         Dish created = dishRepository.save(dish, restId);
@@ -95,7 +97,7 @@ public class AdminRestController {
 
     @PutMapping(value = "/{restId}/dishes/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void updateDish(@RequestBody Dish dish, @PathVariable int restId, @PathVariable int id) {
+    public void updateDish(@Validated(View.Web.class) @RequestBody Dish dish, @PathVariable int restId, @PathVariable int id) {
         assureIdConsistent(dish, id);
         Assert.notNull(dish, "dish must not be null");
         log.info("Update dish {} from restaurant {} by admin", id, restId);
