@@ -28,17 +28,14 @@ public class DishRepository {
                 .orElse(null);
     }
 
-    @Cacheable("app_cache")
     public List<Dish> getAll(int restaurantId) {
         return jpaDishRepository.getAll(restaurantId);
     }
 
-    @CacheEvict(value = "app_cache", allEntries = true)
     public boolean delete(int id, int restId) {
         return jpaDishRepository.delete(id, restId) != 0;
     }
 
-    @CacheEvict(value = "app_cache", allEntries = true)
     @Transactional
     public Dish save(Dish dish, int restId) {
         if (!dish.isNew() && get(dish.getId(), restId) == null) {

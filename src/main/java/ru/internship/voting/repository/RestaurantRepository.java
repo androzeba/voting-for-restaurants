@@ -26,7 +26,6 @@ public class RestaurantRepository {
         return jpaRestaurantRepository.findById(id).orElse(null);
     }
 
-    @Cacheable("app_cache")
     public Restaurant getWithDishes(int id) {
         return jpaRestaurantRepository.getWithDishes(id);
     }
@@ -36,7 +35,6 @@ public class RestaurantRepository {
         return jpaRestaurantRepository.findAll(SORT_NAME);
     }
 
-    @Cacheable("app_cache")
     public List<Restaurant> getAllWithDishes(LocalDate now) {
         return jpaRestaurantRepository.getAllWithDishes(now);
     }

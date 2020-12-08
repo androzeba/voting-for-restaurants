@@ -1,17 +1,11 @@
 package ru.internship.voting.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
-import ru.internship.voting.AuthorizedUser;
 import ru.internship.voting.model.User;
 
 @Repository
-public class UserRepository implements UserDetailsService {
+public class UserRepository {
 
     private final DataJpaUserRepository jpaUserRepository;
 
@@ -20,12 +14,7 @@ public class UserRepository implements UserDetailsService {
         this.jpaUserRepository = jpaUserRepository;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = jpaUserRepository.getByEmail(email.toLowerCase());
-        if (user == null) {
-            throw new UsernameNotFoundException("User " + email + " is not found");
-        }
-        return new AuthorizedUser(user);
+    public User getByEmail(String email) {
+        return jpaUserRepository.getByEmail(email);
     }
 }
